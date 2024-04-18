@@ -7,7 +7,7 @@ import BaseCategory from "../../../models/ProductManagement/Category/BaseCategor
 export const createCategory = async (req, res) => {
   try {
     const data = req.body;
-    const { name, mainCategory } = data;
+    const { name, mainCategory, admin } = data;
     const { error } = SubCategoryCreationSchema.validate(data);
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
@@ -17,6 +17,7 @@ export const createCategory = async (req, res) => {
       id: getAllCategoryCount + 1,
       name,
       mainCategory,
+      admin,
     });
     const savedCategory = await category.save();
     res.status(200).json({ success: true, savedCategory });
