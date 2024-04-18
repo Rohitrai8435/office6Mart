@@ -9,15 +9,17 @@ export const createAttribute = async (req, res) => {
     // Validate request body
     const { error } = attributeValidationSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
     // Create new attribute
     const attribute = new Attribute(req.body);
     const savedAttribute = await attribute.save();
-    res.status(201).json(savedAttribute);
+    res.status(200).json({ success: true, data: savedAttribute }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -25,9 +27,9 @@ export const createAttribute = async (req, res) => {
 export const getAllAttributes = async (req, res) => {
   try {
     const attributes = await Attribute.find();
-    res.status(200).json(attributes);
+    res.status(200).json({ success: true, data: attributes }); // Changed response format
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -36,11 +38,13 @@ export const getAttributeById = async (req, res) => {
   try {
     const attribute = await Attribute.findById(req.params.id);
     if (!attribute) {
-      return res.status(404).json({ error: "Attribute not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Attribute not found" });
     }
-    res.status(200).json(attribute);
+    res.status(200).json({ success: true, data: attribute }); // Changed response format
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -50,7 +54,9 @@ export const updateAttributeById = async (req, res) => {
     // Validate request body
     const { error } = attributeValidationSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
     const updatedAttribute = await Attribute.findByIdAndUpdate(
@@ -62,11 +68,13 @@ export const updateAttributeById = async (req, res) => {
       }
     );
     if (!updatedAttribute) {
-      return res.status(404).json({ error: "Attribute not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Attribute not found" });
     }
-    res.status(200).json(updatedAttribute);
+    res.status(200).json({ success: true, data: updatedAttribute }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -75,10 +83,12 @@ export const deleteAttributeById = async (req, res) => {
   try {
     const deletedAttribute = await Attribute.findByIdAndDelete(req.params.id);
     if (!deletedAttribute) {
-      return res.status(404).json({ error: "Attribute not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Attribute not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ success: true }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };

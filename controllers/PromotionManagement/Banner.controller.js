@@ -10,7 +10,9 @@ export const createBanner = async (req, res) => {
     // Validate request body
     const { error } = bannerValidationSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
     // Create new banner
@@ -19,9 +21,9 @@ export const createBanner = async (req, res) => {
       bannerImage: req.files?.bannerImage?.map((doc) => doc.key),
     });
     const savedBanner = await banner.save();
-    res.status(201).json(savedBanner);
+    res.status(200).json({ success: true, data: savedBanner }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -29,23 +31,24 @@ export const createBanner = async (req, res) => {
 export const getAllBanners = async (req, res) => {
   try {
     const banners = await Banner.find();
-    res.status(200).json(banners);
+    res.status(200).json({ success: true, data: banners }); // Changed response format
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
 // Get banner by ID
 export const getBannerById = async (req, res) => {
   try {
-    console.log(req.params.id);
-    const banner = await Banner.findById({_id:req.params.id})
+    const banner = await Banner.findById(req.params.id);
     if (!banner) {
-      return res.status(404).json({ error: "Banner not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Banner not found" });
     }
-    res.status(200).json(banner);
+    res.status(200).json({ success: true, data: banner }); // Changed response format
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -53,32 +56,36 @@ export const getBannerById = async (req, res) => {
 export const updateBannerById = async (req, res) => {
   try {
     // Validate request body
-    console.log(req.params.id);
     const { error } = bannerValidationSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
     const updatedBanner = await Banner.findById(req.params.id);
-    console.log(updatedBanner);
-
     if (!updatedBanner) {
-      return res.status(404).json({ error: "Banner not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Banner not found" });
     }
+
     if (updatedBanner && updatedBanner.bannerImage.length > 0) {
       updatedBanner.bannerImage.map((doc) => deleteFileFromObjectStorage(doc));
     }
-    
-    updatedBanner.title=req.body.title;
+
+    // Updating banner fields
+    updatedBanner.title = req.body.title;
     updatedBanner.zone = req.body.zone;
     updatedBanner.bannerType = req.body.bannerType;
     updatedBanner.store = req.body.store;
     updatedBanner.defaultLink = req.body.defaultLink;
-    updatedBanner.bannerImage = req.files?.bannerImage?.map((doc) => doc.key);;
+    updatedBanner.bannerImage = req.files?.bannerImage?.map((doc) => doc.key);
+
     await updatedBanner.save();
-    res.status(200).json(updatedBanner);
+    res.status(200).json({ success: true, data: updatedBanner }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -87,10 +94,12 @@ export const deleteBannerById = async (req, res) => {
   try {
     const deletedBanner = await Banner.findByIdAndDelete(req.params.id);
     if (!deletedBanner) {
-      return res.status(404).json({ error: "Banner not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Banner not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ success: true }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };

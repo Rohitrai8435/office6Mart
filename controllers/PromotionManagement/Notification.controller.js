@@ -10,18 +10,20 @@ export const createNotification = async (req, res) => {
     // Validate request body
     const { error } = notificationValidationSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
     // Create new notification
     const notification = new Notification({
       ...req.body,
-      image: req.files?.image.map(doc=>doc.key)
+      image: req.files?.image.map((doc) => doc.key),
     });
     const savedNotification = await notification.save();
-    res.status(201).json(savedNotification);
+    res.status(200).json({ success: true, data: savedNotification }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -29,9 +31,9 @@ export const createNotification = async (req, res) => {
 export const getAllNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find();
-    res.status(200).json(notifications);
+    res.status(200).json({ success: true, data: notifications }); // Changed response format
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -40,11 +42,13 @@ export const getNotificationById = async (req, res) => {
   try {
     const notification = await Notification.findById(req.params.id);
     if (!notification) {
-      return res.status(404).json({ error: "Notification not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Notification not found" });
     }
-    res.status(200).json(notification);
+    res.status(200).json({ success: true, data: notification }); // Changed response format
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -54,26 +58,32 @@ export const updateNotificationById = async (req, res) => {
     // Validate request body
     const { error } = notificationValidationSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
-    const updatedNotification = await Notification.findById(req.params.id );
+    const updatedNotification = await Notification.findById(req.params.id);
     if (!updatedNotification) {
-      return res.status(404).json({ error: "Notification not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Notification not found" });
     }
     if (updatedNotification && updatedNotification.image.length > 0) {
       updatedNotification.image.map((doc) => deleteFileFromObjectStorage(doc));
     }
-    updatedNotification.title=req.body.title;
+
+    // Update notification fields
+    updatedNotification.title = req.body.title;
     updatedNotification.zone = req.body.zone;
     updatedNotification.sendTo = req.body.sendTo;
     updatedNotification.description = req.body.description;
-    updatedNotification.image = req.files?.image.map(doc=>doc.key);
+    updatedNotification.image = req.files?.image.map((doc) => doc.key);
 
-    updatedNotification.save();
-    res.status(200).json(updatedNotification);
+    await updatedNotification.save();
+    res.status(200).json({ success: true, data: updatedNotification }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -84,10 +94,12 @@ export const deleteNotificationById = async (req, res) => {
       req.params.id
     );
     if (!deletedNotification) {
-      return res.status(404).json({ error: "Notification not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Notification not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ success: true }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };

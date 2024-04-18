@@ -9,15 +9,17 @@ export const createOrder = async (req, res) => {
     // Validate request body
     const { error } = orderValidationSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
     // Create new order
     const order = new Order(req.body);
     const savedOrder = await order.save();
-    res.status(201).json(savedOrder);
+    res.status(200).json({ success: true, data: savedOrder }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -25,9 +27,9 @@ export const createOrder = async (req, res) => {
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find();
-    res.status(200).json(orders);
+    res.status(200).json({ success: true, data: orders }); // Changed response format
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -36,11 +38,11 @@ export const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     if (!order) {
-      return res.status(404).json({ error: "Order not found" });
+      return res.status(400).json({ success: false, error: "Order not found" });
     }
-    res.status(200).json(order);
+    res.status(200).json({ success: true, data: order }); // Changed response format
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -50,7 +52,9 @@ export const updateOrderById = async (req, res) => {
     // Validate request body
     const { error } = orderValidationSchema.validate(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
     const updatedOrder = await Order.findByIdAndUpdate(
@@ -59,11 +63,11 @@ export const updateOrderById = async (req, res) => {
       { new: true, runValidators: true }
     );
     if (!updatedOrder) {
-      return res.status(404).json({ error: "Order not found" });
+      return res.status(400).json({ success: false, error: "Order not found" });
     }
-    res.status(200).json(updatedOrder);
+    res.status(200).json({ success: true, data: updatedOrder }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -72,10 +76,10 @@ export const deleteOrderById = async (req, res) => {
   try {
     const deletedOrder = await Order.findByIdAndDelete(req.params.id);
     if (!deletedOrder) {
-      return res.status(404).json({ error: "Order not found" });
+      return res.status(400).json({ success: false, error: "Order not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ success: true }); // Changed response format
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };

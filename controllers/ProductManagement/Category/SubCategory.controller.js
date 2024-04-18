@@ -10,7 +10,9 @@ export const createCategory = async (req, res) => {
     const { name, mainCategory, admin } = data;
     const { error } = SubCategoryCreationSchema.validate(data);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
     const getAllCategoryCount = await BaseCategory.countDocuments();
     const category = new SubCategory({
@@ -22,7 +24,7 @@ export const createCategory = async (req, res) => {
     const savedCategory = await category.save();
     res.status(200).json({ success: true, savedCategory });
   } catch (error) {
-    res.status(400).json({ success: true, error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -31,22 +33,26 @@ export const getCategory = async (req, res) => {
   try {
     const category = await SubCategory.findById(req.params.id);
     if (!category) {
-      return res.status(404).json({ error: "SubCategory not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "SubCategory not found" });
     }
-    res.status(200).json(category);
+    res.status(200).json({ success: true, category });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 export const getAllCategory = async (req, res) => {
   try {
     const category = await SubCategory.find().populate("admin mainCategory");
     if (!category) {
-      return res.status(404).json({ error: "SubCategory not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "SubCategory not found" });
     }
-    res.status(200).json(category);
+    res.status(200).json({ success: true, category });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 export const getByAdminCategory = async (req, res) => {
@@ -55,11 +61,13 @@ export const getByAdminCategory = async (req, res) => {
       admin: req.params.adminId,
     }).populate("admin mainCategory");
     if (!category) {
-      return res.status(404).json({ error: "SubCategory not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "SubCategory not found" });
     }
-    res.status(200).json(category);
+    res.status(200).json({ success: true, category });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -80,11 +88,13 @@ export const updateCategory = async (req, res) => {
       }
     );
     if (!category) {
-      return res.status(404).json({ error: "SubCategory not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "SubCategory not found" });
     }
-    res.status(200).json(category);
+    res.status(200).json({ success: true, category });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -93,10 +103,12 @@ export const deleteCategory = async (req, res) => {
   try {
     const category = await SubCategory.findByIdAndDelete(req.params.id);
     if (!category) {
-      return res.status(404).json({ error: "SubCategory not found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "SubCategory not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ success: true, message: "Deleted Successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
