@@ -9,18 +9,21 @@ export const createCategory = async (req, res) => {
     const { name, admin } = req.body;
     const { error } = CategoryCreationSchema.validate(data);
     if (error) {
-      return res.status(400).json({success:false, error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
+    const getAllCategoryCount = await BaseCategory.countDocuments();
     const category = new Category({
-      id: uuidv1(),
+      id: getAllCategoryCount + 1,
       name,
       admin,
       image: req.files?.image?.map((doc) => doc.key),
     });
     const savedCategory = await category.save();
-    res.status(200).json({success:true,savedCategory});
+    res.status(200).json({ success: true, savedCategory });
   } catch (error) {
-    res.status(400).json({success:false, error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
