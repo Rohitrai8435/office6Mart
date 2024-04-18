@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 const baseOptions = {
@@ -9,14 +8,14 @@ const baseOptions = {
 const BasecategorySchema = new Schema(
   {
     id: {
-      type: String,
+      type: Number,
       required: true,
     },
     name: {
       type: String,
       required: true,
     },
-    
+
     status: {
       type: Boolean,
       default: true,
@@ -27,16 +26,15 @@ const BasecategorySchema = new Schema(
     },
     admin: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:"admin",
+      ref: "admin",
     },
     priority: {
       type: String,
-      emum:["Normal","Medium","High"],
+      emum: ["Normal", "Medium", "High"],
       default: "Normal",
     },
   },
   baseOptions
-  
 );
-const BaseCategory = model("BaseCategory",BasecategorySchema);
+const BaseCategory = model("BaseCategory", BasecategorySchema);
 export default BaseCategory;

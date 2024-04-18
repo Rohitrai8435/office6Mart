@@ -10,6 +10,8 @@ router.post("/", subcategoryController.createCategory);
 
 // Get category route
 router.get("/:id", subcategoryController.getCategory);
+router.get("/", subcategoryController.getAllCategory);
+router.get("/ofadmin/:adminId", subcategoryController.getByAdminCategory);
 
 // Update category route
 router.put("/:id", subcategoryController.updateCategory);
