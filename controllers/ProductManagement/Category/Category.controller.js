@@ -44,7 +44,7 @@ export const getCategory = async (req, res) => {
 };
 export const getAllCategory = async (req, res) => {
   try {
-    const category = await Category.find();
+    const category = await Category.find().populate("admin");
     if (!category) {
       return res
         .status(400)
@@ -57,7 +57,9 @@ export const getAllCategory = async (req, res) => {
 };
 export const getAllbyAdminCategory = async (req, res) => {
   try {
-    const category = await Category.find({ admin: req.params.adminId });
+    const category = await Category.find({
+      admin: req.params.adminId,
+    }).populate("admin");
     if (!category) {
       return res
         .status(400)

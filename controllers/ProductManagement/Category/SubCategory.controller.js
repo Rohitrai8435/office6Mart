@@ -40,7 +40,7 @@ export const getCategory = async (req, res) => {
 };
 export const getAllCategory = async (req, res) => {
   try {
-    const category = await SubCategory.find();
+    const category = await SubCategory.find().populate("admin mainCategory");
     if (!category) {
       return res.status(404).json({ error: "SubCategory not found" });
     }
@@ -51,7 +51,9 @@ export const getAllCategory = async (req, res) => {
 };
 export const getByAdminCategory = async (req, res) => {
   try {
-    const category = await SubCategory.find({ admin: req.params.adminId });
+    const category = await SubCategory.find({
+      admin: req.params.adminId,
+    }).populate("admin mainCategory");
     if (!category) {
       return res.status(404).json({ error: "SubCategory not found" });
     }
