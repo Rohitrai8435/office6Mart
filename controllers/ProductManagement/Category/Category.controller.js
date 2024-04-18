@@ -2,6 +2,7 @@ import { v1 as uuidv1 } from "uuid";
 import Category from "../../../models/ProductManagement/Category/Category.model.js";
 import { CategoryCreationSchema } from "../../../validators/ProductManagement/Category/category.validator.js";
 import { deleteFileFromObjectStorage } from "../../../middlewares/multer.js";
+import BaseCategory from "../../../models/ProductManagement/Category/BaseCategory.model.js";
 // Create category
 export const createCategory = async (req, res) => {
   try {
@@ -14,6 +15,8 @@ export const createCategory = async (req, res) => {
         .json({ success: false, error: error.details[0].message });
     }
     const getAllCategoryCount = await BaseCategory.countDocuments();
+    console.log(getAllCategory);
+
     const category = new Category({
       id: getAllCategoryCount + 1,
       name,
