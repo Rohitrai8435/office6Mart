@@ -15,11 +15,7 @@ const productSchema = mongoose.Schema({
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-  },
-  subcategory: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "SubCategory",
+    ref: "BaseCategory",
   },
   unit: {
     type: String,
@@ -30,7 +26,7 @@ const productSchema = mongoose.Schema({
   price: {
     type: Number,
   },
-  totalstock: {
+  totalUnit: {
     type: Number,
   },
   discounttype: {
@@ -44,6 +40,12 @@ const productSchema = mongoose.Schema({
   },
   tags: {
     type: String,
+  },
+  stock: {
+    type: Number,
+  },
+  sold: {
+    type: Number,
   },
   isOrganic: {
     type: Boolean,

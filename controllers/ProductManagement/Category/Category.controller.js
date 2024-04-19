@@ -43,6 +43,7 @@ export const getCategory = async (req, res) => {
     res.status(400).json({ success: false, error: error.message });
   }
 };
+
 export const getAllCategory = async (req, res) => {
   try {
     const category = await Category.find().populate("admin");
