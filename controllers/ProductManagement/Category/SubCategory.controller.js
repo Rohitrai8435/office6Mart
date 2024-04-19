@@ -42,27 +42,10 @@ export const getCategory = async (req, res) => {
     res.status(400).json({ success: false, error: error.message });
   }
 };
-export const getCategoryByMainCategory = async (req, res) => {
-  try {
-    const category = await SubCategory.find({
-      mainCategory: req.params.mainCategoryId,
-    });
 
-    console.log(category);
-    if (!category) {
-      return res
-        .status(400)
-        .json({ success: false, error: "Category not found" });
-    }
-    res.status(200).json({ success: true, category });
-  } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
-  }
-};
 export const getAllCategory = async (req, res) => {
   try {
     const { mainCategoryId } = req.query;
-
     if (mainCategoryId) {
       const allsubcategories = await SubCategory.find({
         mainCategory: mainCategoryId,

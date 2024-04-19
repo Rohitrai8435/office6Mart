@@ -11,13 +11,11 @@ router.post("/", subcategoryController.createCategory);
 // Get category route
 router.get("/:id", subcategoryController.getCategory);
 
-//get all subcategory
+//get all subcategory and by main category
 router.get("/", subcategoryController.getAllCategory);
 
 //get all sub category for admin
 router.get("/ofadmin/:adminId", subcategoryController.getByAdminCategory);
-
-router.get("/ofmainCategory", subcategoryController.getCategoryByMainCategory);
 
 // Update category route
 router.put("/:id", subcategoryController.updateCategory);
