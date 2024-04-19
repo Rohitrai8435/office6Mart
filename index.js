@@ -23,7 +23,6 @@ import ItemCampaignRoutes from "./routes/PromotionManagement/ItemCampaign.route.
 import CouponRoutes from "./routes/PromotionManagement/Coupon.route.js";
 import NotificationRoutes from "./routes/PromotionManagement/Notification.route.js";
 import OrderRoutes from "./routes/OrderManagement/Order.route.js";
-import CustomerRoutes from "./routes/PosSection/customer.route.js";
 import FlashsaleRoutes from "./routes/OrderManagement/flashsale.route.js";
 
 /********************************************/
@@ -77,7 +76,7 @@ app.use("/api/v1/itemCampaign", ItemCampaignRoutes);
 app.use("/api/v1/coupon", CouponRoutes);
 app.use("/api/v1/notification", NotificationRoutes);
 app.use("/api/v1/order", OrderRoutes);
-app.use("/api/v1/customer", CustomerRoutes);
+
 app.use("/api/v1/flashsale", FlashsaleRoutes);
 
 /***************************************/

@@ -20,6 +20,10 @@ const AddressSchema = new mongoose.Schema({
   postalCode: {
     type: String,
   },
+  store: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "storeowner",
+  },
 });
 
 const UserSchema = new mongoose.Schema({
