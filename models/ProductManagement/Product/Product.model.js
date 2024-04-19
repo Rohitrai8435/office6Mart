@@ -31,6 +31,8 @@ const productSchema = mongoose.Schema({
   },
   discounttype: {
     type: String,
+    emun: ["Percent", "Amount"],
+    default: "Amount",
   },
   discount: {
     type: Number,

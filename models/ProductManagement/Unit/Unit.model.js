@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Unitschema = mongoose.Schema(
   {
-    unit: {
+    name: {
       type: String,
       required: true,
     },
