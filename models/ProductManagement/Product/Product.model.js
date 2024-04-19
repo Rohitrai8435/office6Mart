@@ -42,11 +42,14 @@ const productSchema = mongoose.Schema({
   attribute: {
     type: String,
   },
-
   tags: {
     type: String,
   },
+  isOrganic: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const ProductModel=mongoose.model("Product",productSchema)
+const ProductModel = mongoose.model("Product", productSchema);
 export default ProductModel;

@@ -3,11 +3,10 @@
 import Permission from "../../models/EmployeeManagement/Permision/permision.model.js";
 import { permisionValidationSchema } from "../../validators/EmployeeManagement/permision.validator.js";
 
-
 // Create permission
 export const createPermission = async (req, res) => {
   try {
-    const { error } = permisionValidationSchema.validate(data);
+    const { error } = permisionValidationSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }

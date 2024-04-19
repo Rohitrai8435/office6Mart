@@ -21,7 +21,9 @@ export const createStore = async (req, res) => {
     const data = req.body;
     const { error } = storeCreationSchema.validate(data);
     if (error) {
-      return res.status(400).json({success:false, error: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, error: error.details[0].message });
     }
 
     // Extract properties from req.body using object destructuring
@@ -33,7 +35,7 @@ export const createStore = async (req, res) => {
     });
 
     if (isexiststore) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
         error: "EmailID or Phone Already Exist",
       });
@@ -46,7 +48,7 @@ export const createStore = async (req, res) => {
 
     // Save store to database
     const savedStore = await store.save();
-    res.status(201).json(savedStore);
+    res.status(200).json({ success: true, savedStore });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -57,11 +59,11 @@ export const getStore = async (req, res) => {
   try {
     const store = await Store.findById(req.params.id).populate("admin");
     if (!store) {
-      return res.status(404).json({ success: false, error: "Store not found" });
+      return res.status(400).json({ success: false, error: "Store not found" });
     }
-    res.status(200).json(store);
+    res.status(200).json({ success: true, store });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -118,9 +120,9 @@ export const updateStore = async (req, res) => {
     await store.save();
 
     if (!store) {
-      return res.status(404).json({ success: false, error: "Store not found" });
+      return res.status(400).json({ success: false, error: "Store not found" });
     }
-    res.status(200).json(store);
+    res.status(200).json({ success: true, store });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -131,9 +133,9 @@ export const deleteStore = async (req, res) => {
   try {
     const store = await Store.findByIdAndDelete(req.params.id);
     if (!store) {
-      return res.status(404).json({ success: false, error: "Store not found" });
+      return res.status(400).json({ success: false, error: "Store not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ success: true, store });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -148,16 +150,14 @@ export const storeLogin = async (req, res) => {
         .status(400)
         .json({ success: false, error: error.details[0].message });
     }
-    const { email,  password } = req.body;
+    const { email, password } = req.body;
 
     // Find admin by email address
-    const store = await Store.findOne(
-      { email: email },
-    );
+    const store = await Store.findOne({ email: email });
 
     if (!store) {
       return res
-        .status(404)
+        .status(400)
         .json({ success: false, error: "storeOwner not found" });
     }
 
@@ -181,7 +181,7 @@ export const storeLogin = async (req, res) => {
     // Send the user data and token in the response
     res.status(200).json({ success: true, store: store, token });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       success: false,
       error: error.message || "Something went wrong",
     });
@@ -198,7 +198,7 @@ export const storeLogout = (req, res) => {
       .json({ message: "Logged out successfully", clearToken: true });
   } catch (error) {
     res
-      .status(500)
+      .status(400)
       .json({ success: false, error: error.message || "Something went wrong" });
   }
 };
@@ -227,11 +227,14 @@ export const forgotPassword = async (req, res) => {
     await sendPasswordResetEmail(store, resetToken);
 
     // Respond to the client
-    res.status(200).json({ message: "Password reset email sent successfully" });
+    res.status(200).json({
+      success: true,
+      message: "Password reset email sent successfully",
+    });
   } catch (error) {
     console.error("Error in forgotPassword:", error);
     res
-      .status(500)
+      .status(400)
       .json({ success: false, error: error.message || "Something went wrong" });
   }
 };
@@ -246,14 +249,14 @@ export const resetPassword = async (req, res) => {
 
     if (!store) {
       return res
-        .status(404)
+        .status(400)
         .json({ success: false, error: "Invalid or expired reset token" });
     }
 
     // Check if the reset token has expired
     if (store.resetPasswordExpires < Date.now()) {
       return res
-        .status(401)
+        .status(400)
         .json({ success: false, error: "Reset token has expired" });
     }
 
@@ -268,33 +271,41 @@ export const resetPassword = async (req, res) => {
     await store.save();
 
     // Respond to the client
-    res.status(200).json({ message: "Password reset successful" });
+    res
+      .status(200)
+      .json({ success: true, message: "Password reset successful" });
   } catch (error) {
     console.error("Error in resetPassword:", error);
-    res.status(500).json({ error: error.message || "Something went wrong" });
+    res
+      .status(400)
+      .json({ success: false, error: error.message || "Something went wrong" });
   }
 };
 
 export const changePassword = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+
     const { oldPassword, newPassword } = req.body;
-    console.log(req.body);
+
     // Find the user by userId
     const store = await Store.findOne({ _id: id });
 
     // If user not found
     if (!store) {
-      return res.status(404).json({ message: "StoreOwner not found" });
+      return res
+        .status(400)
+        .json({ success: false, message: "StoreOwner not found" });
     }
 
     // Compare old password with the hashed password stored in the database
     const passwordMatch = store.authenticate(oldPassword);
-    console.log(passwordMatch);
+
     // If old password doesn't match
     if (!passwordMatch) {
-      return res.status(400).json({ message: "Old password is incorrect" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Old password is incorrect" });
     }
 
     // Hash the new password
@@ -310,7 +321,7 @@ export const changePassword = async (req, res) => {
   } catch (error) {
     // Handle errors
     res
-      .status(500)
+      .status(400)
       .json({ message: "Something went wrong", error: error.message });
   }
 };

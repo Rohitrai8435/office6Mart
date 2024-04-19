@@ -1,5 +1,3 @@
-
-
 import Joi from "@hapi/joi";
 
 export const productValidationSchema = Joi.object({
@@ -18,4 +16,5 @@ export const productValidationSchema = Joi.object({
   discount: Joi.number(),
   attribute: Joi.string(),
   tags: Joi.string(),
+  isOrganic: Joi.boolean().optional(),
 });
