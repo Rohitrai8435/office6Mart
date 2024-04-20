@@ -67,6 +67,18 @@ export const getStore = async (req, res) => {
   }
 };
 
+export const getAllStore = async (req, res) => {
+  try {
+    const store = await Store.find().populate("admin");
+    if (!store) {
+      return res.status(400).json({ success: false, error: "Store not found" });
+    }
+    res.status(200).json({ success: true, store });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
 // Update store by ID
 export const updateStore = async (req, res) => {
   try {

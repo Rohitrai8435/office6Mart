@@ -18,6 +18,9 @@ router.post(
 // Get store route
 router.get("/:id", storeController.getStore);
 
+// Get Allstore route
+router.get("/", storeController.getAllStore);
+
 // Update store route
 router.put(
   "/:id",

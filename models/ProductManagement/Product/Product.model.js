@@ -11,11 +11,11 @@ const productSchema = mongoose.Schema({
   itemThumbnail: [],
   store: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "BaseStoreSchema",
+    ref: "storeowner",
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "BaseCategory",
+    ref: "Category",
   },
   unit: {
     type: String,
@@ -48,10 +48,6 @@ const productSchema = mongoose.Schema({
   },
   sold: {
     type: Number,
-  },
-  isOrganic: {
-    type: Boolean,
-    default: false,
   },
 });
 

@@ -30,17 +30,13 @@ const BaseStoreSchema = new mongoose.Schema(
     salt: {
       type: String,
     },
-    role: {
-      type: Number,
-      default: 0,
-    },
     encry_password: {
       type: String,
       required: true,
     },
     zone: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Zone",
     },
     resetPasswordToken: {
       type: String,

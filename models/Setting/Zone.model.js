@@ -9,5 +9,5 @@ const ZoneSchema = mongoose.Schema(
   },
   { timestamp: true }
 );
-const ZoneModel = mongoose.model("zone", ZoneSchema);
+const ZoneModel = mongoose.model("Zone", ZoneSchema);
 export default ZoneModel;

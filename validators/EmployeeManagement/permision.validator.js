@@ -1,6 +1,5 @@
 import Joi from "@hapi/joi";
 
-
 // Validation schema for store creation
 export const permisionValidationSchema = Joi.object({
   name: Joi.string().required(),

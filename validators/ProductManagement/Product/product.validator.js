@@ -2,22 +2,21 @@ import Joi from "@hapi/joi";
 
 export const productValidationSchema = Joi.object({
   name: Joi.string().required(),
-  shortDescription: Joi.string(),
-  itemImage: Joi.string(),
-  itemThumbnail: Joi.string(),
-  store: Joi.string().required(), // Assuming store is required
-  category: Joi.string().required(), // Assuming category is required
+  shortDescription: Joi.string().required(),
+  itemImage: Joi.array().items(Joi.string()).required(),
+  itemThumbnail: Joi.array().items(Joi.string()).required(),
+  store: Joi.string().required().required(),
+  category: Joi.string().required(),
 
-  unit: Joi.string(),
-  maximumPurchaseQuantityLimit: Joi.number(),
-  price: Joi.number(),
-  totalUnit: Joi.number(),
-  discounttype: Joi.string(),
+  unit: Joi.string().required(),
+  maximumPurchaseQuantityLimit: Joi.number().required(),
+  price: Joi.number().required(),
+  totalUnit: Joi.number().required(),
+  discounttype: Joi.string().required(),
   discounttype: Joi.string().valid("Percent", "Amount").required(),
-  discount: Joi.number(),
-  stock: Joi.number(),
-  sold: Joi.number(),
-  attribute: Joi.string(),
-  tags: Joi.string(),
-  isOrganic: Joi.boolean().optional(),
+  discount: Joi.number().required(),
+  stock: Joi.number().required(),
+  sold: Joi.number().required(),
+  attribute: Joi.string().required(),
+  tags: Joi.string().required(),
 });

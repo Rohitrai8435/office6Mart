@@ -35,7 +35,7 @@ const CoupanSchema = new Schema({
   },
   discountType: {
     type: String,
-    enum: ["Amount($)", "Percent(%)"],
+    enum: ["Amount", "Percent"],
     required: true,
   },
   discount: {

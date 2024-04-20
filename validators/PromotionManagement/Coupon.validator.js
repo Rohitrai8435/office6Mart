@@ -11,9 +11,8 @@ export const couponValidationSchema = Joi.object({
   limitforSameUser: Joi.string().required(),
   startDate: Joi.date().iso().required(),
   expireDate: Joi.date().iso().required(),
-  discountType: Joi.string().valid("Amount($)", "Percent(%)").required(),
+  discountType: Joi.string().valid("Amount", "Percent").required(),
   discount: Joi.number().required(),
   maxDiscount: Joi.number().required(),
   minPurchase: Joi.number().required(),
-  status: Joi.boolean(),
 });
