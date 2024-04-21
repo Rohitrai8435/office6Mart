@@ -18,7 +18,7 @@ router.post(
 // Get category route
 router.get("/:id", categoryController.getCategory);
 
-router.get("/", isStore, categoryController.getAllCategory);
+router.get("/", categoryController.getAllCategory);
 router.get(
   "/ofadmin/:adminId",
   isStore,

@@ -14,7 +14,7 @@ router.post("/", isStoreAdmin, subcategoryController.createCategory);
 router.get("/:id", subcategoryController.getCategory);
 
 //get all subcategory and by main category
-router.get("/", isStore, subcategoryController.getAllCategory);
+router.get("/", subcategoryController.getAllCategory);
 
 //get all sub category for admin
 router.get(

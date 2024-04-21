@@ -11,7 +11,7 @@ const router = express.Router();
 router.post("/", isStoreAdmin, unitController.createUnit);
 
 // Get all units route
-router.get("/", isStore, unitController.getAllUnits);
+router.get("/", unitController.getAllUnits);
 
 // Get unit by ID route
 router.get("/:id", unitController.getUnitById);
