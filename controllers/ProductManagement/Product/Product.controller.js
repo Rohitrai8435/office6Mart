@@ -18,6 +18,8 @@ export const createProduct = async (req, res) => {
     // Create new product
     const product = new Product({
       ...req.body,
+      store: req.profile._id,
+      admin: req.profile.admin,
       itemImage: req.files?.itemImage?.map((doc) => doc.key),
       itemThumbnail: req.files?.itemThumbnail?.map((doc) => doc.key),
     });
@@ -31,6 +33,19 @@ export const createProduct = async (req, res) => {
 export const getProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Product not found" }); // Changed status to 400
+    }
+    res.status(200).json({ success: true, data: product }); // Changed response format
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+export const getAllProduct = async (req, res) => {
+  try {
+    const product = await Product.find();
     if (!product) {
       return res
         .status(400)

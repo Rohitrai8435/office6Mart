@@ -3,11 +3,7 @@ import Joi from "@hapi/joi";
 export const productValidationSchema = Joi.object({
   name: Joi.string().required(),
   shortDescription: Joi.string().required(),
-  itemImage: Joi.array().items(Joi.string()).required(),
-  itemThumbnail: Joi.array().items(Joi.string()).required(),
-  store: Joi.string().required().required(),
   category: Joi.string().required(),
-
   unit: Joi.string().required(),
   maximumPurchaseQuantityLimit: Joi.number().required(),
   price: Joi.number().required(),
@@ -18,5 +14,5 @@ export const productValidationSchema = Joi.object({
   stock: Joi.number().required(),
   sold: Joi.number().required(),
   attribute: Joi.string().required(),
-  tags: Joi.string().required(),
+  tags: Joi.array().required(),
 });

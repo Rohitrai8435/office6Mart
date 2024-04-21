@@ -3,11 +3,13 @@
 import express from "express";
 import * as storeController from "../../../controllers/StoreManagement/Store/storeOwner.controller.js";
 import { uploadS3 } from "../../../middlewares/multer.js";
+import isStoreAdmin from "../../../middlewares/isstoreAdmin.js";
 const router = express.Router();
 
 // Create store route()
 router.post(
   "/",
+  isStoreAdmin,
   uploadS3.fields([
     { name: "storeLogo", maxCount: 1 },
     { name: "storeCover", maxCount: 1 },
@@ -16,14 +18,15 @@ router.post(
 );
 
 // Get store route
-router.get("/:id", storeController.getStore);
+router.get("/:id", isStoreAdmin, storeController.getStore);
 
 // Get Allstore route
-router.get("/", storeController.getAllStore);
+router.get("/", isStoreAdmin, storeController.getAllStore);
 
 // Update store route
 router.put(
   "/:id",
+  isStoreAdmin,
   uploadS3.fields([
     { name: "storeLogo", maxCount: 1 },
     { name: "storeCover", maxCount: 1 },
@@ -32,7 +35,7 @@ router.put(
 );
 
 // Delete store route
-router.delete("/:id", storeController.deleteStore);
+router.delete("/:id", isStoreAdmin, storeController.deleteStore);
 
 // Store login route
 router.post("/login", storeController.storeLogin);

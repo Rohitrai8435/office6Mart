@@ -2,25 +2,31 @@
 
 import express from "express";
 import * as subcategoryController from "../../../controllers/ProductManagement/Category/SubCategory.controller.js";
+import isStoreAdmin from "../../../middlewares/isstoreAdmin.js";
+import isStore from "../../../middlewares/isStoreOwner.js";
 
 const router = express.Router();
 
 // Create category route
-router.post("/", subcategoryController.createCategory);
+router.post("/", isStoreAdmin, subcategoryController.createCategory);
 
 // Get category route
 router.get("/:id", subcategoryController.getCategory);
 
 //get all subcategory and by main category
-router.get("/", subcategoryController.getAllCategory);
+router.get("/", isStore, subcategoryController.getAllCategory);
 
 //get all sub category for admin
-router.get("/ofadmin/:adminId", subcategoryController.getByAdminCategory);
+router.get(
+  "/ofadmin/:adminId",
+  isStore,
+  subcategoryController.getByAdminCategory
+);
 
 // Update category route
-router.put("/:id", subcategoryController.updateCategory);
+router.put("/:id", isStoreAdmin, subcategoryController.updateCategory);
 
 // Delete category route
-router.delete("/:id", subcategoryController.deleteCategory);
+router.delete("/:id", isStoreAdmin, subcategoryController.deleteCategory);
 
 export default router;

@@ -17,6 +17,10 @@ const productSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
   },
+  admin: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "admin",
+  },
   unit: {
     type: String,
   },
@@ -40,15 +44,21 @@ const productSchema = mongoose.Schema({
   attribute: {
     type: String,
   },
-  tags: {
-    type: String,
-  },
+  tags: [{ type: Array }],
   stock: {
     type: Number,
+    default: 0,
   },
   sold: {
     type: Number,
+    default: 0,
   },
+  bestSellingProductCount: { type: Number, default: 0 },
+  topSellingProductCount: { type: Number, default: 0 },
+  mostRatedProductCount: { type: Number, default: 0 },
+
+  isDisabled: { type: Boolean, default: false },
+  isVisible: { type: Boolean, default: true },
 });
 
 const ProductModel = mongoose.model("Product", productSchema);

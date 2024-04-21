@@ -15,9 +15,15 @@ const StoreOwner = new mongoose.Schema({
   longitude: {
     type: String,
   },
-  
+
   storeLogo: [],
   storeCover: [],
+  bestSellingStoreCount: { type: Number, default: 0 },
+  topSellingStoreCount: { type: Number, default: 0 },
+  mostRatedProduct: { type: Number, default: 0 },
+
+  isDisabled: { type: Boolean, default: false },
+  isVisible: { type: Boolean, default: true },
 });
 
 const StoreOwnerModel = BaseStore.discriminator("storeowner", StoreOwner);

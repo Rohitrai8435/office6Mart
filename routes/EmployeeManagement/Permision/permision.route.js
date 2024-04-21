@@ -2,22 +2,23 @@
 
 import express from "express";
 import * as permissionController from "../../../controllers/EmployeeManagement/employeeRole.controller.js";
+import isStoreAdmin from "../../../middlewares/isstoreAdmin.js";
 
 const router = express.Router();
 
 // Create permission route
-router.post("/", permissionController.createPermission);
+router.post("/", isStoreAdmin, permissionController.createPermission);
 
 // Get all permissions route
-router.get("/", permissionController.getAllPermissions);
+router.get("/", isStoreAdmin, permissionController.getAllPermissions);
 
 // Get permission by ID route
-router.get("/:id", permissionController.getPermissionById);
+router.get("/:id", isStoreAdmin, permissionController.getPermissionById);
 
 // Update permission by ID route
-router.put("/:id", permissionController.updatePermissionById);
+router.put("/:id", isStoreAdmin, permissionController.updatePermissionById);
 
 // Delete permission by ID route
-router.delete("/:id", permissionController.deletePermissionById);
+router.delete("/:id", isStoreAdmin, permissionController.deletePermissionById);
 
 export default router;
