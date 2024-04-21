@@ -1,9 +1,9 @@
 // routes/permission.routes.js
 
 import express from "express";
-import * as permissionController from "../../../controllers/EmployeeManagement/employeeRole.controller.js";
-import isStoreAdmin from "../../../middlewares/isstoreAdmin.js";
-import isStore from "../../../middlewares/isStoreOwner.js";
+import * as permissionController from "../../controllers/EmployeeManagement/employeeRole.controller.js";
+import isStoreAdmin from "../../middlewares/isstoreAdmin.js";
+import isStore from "../../middlewares/isStoreOwner.js";
 
 const router = express.Router();
 

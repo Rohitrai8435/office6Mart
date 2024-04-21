@@ -33,8 +33,8 @@ router.post(
 router.delete("/:id", isStore, employeeController.deleteEmployee);
 
 // Employee login route
-router.post("/login", employeeController.employeeLogin);
-router.post("/logout", employeeController.employeeLogout);
+router.get("/auth/login", employeeController.employeeLogin);
+router.get("/auth/logout", employeeController.employeeLogout);
 router.post("/forgotPassword", employeeController.forgotPassword);
 router.post("/resetPassword", employeeController.resetPassword);
 router.post("/changePassword/:id", employeeController.changePassword);
