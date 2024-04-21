@@ -8,17 +8,4 @@ export const orderValidationSchema = Joi.object({
   store: Joi.string().required(),
   itemQuantity: Joi.number().required(),
   totalAmount: Joi.number().required(),
-  orderStatus: Joi.string()
-    .valid(
-      "Pending",
-      "Confirmed",
-      "Processing",
-      "Out for delivery",
-      "Delivered",
-      "Failed",
-      "Canceled",
-      "RefundRequest",
-      "Refunded"
-    )
-    .default("Processing"),
 });

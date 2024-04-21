@@ -41,7 +41,7 @@ export const createEmployee = async (req, res) => {
     const savedEmployee = await employee.save();
     res.status(201).json(savedEmployee);
   } catch (error) {
-    res.status(400).json({success:false, error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -50,11 +50,27 @@ export const getEmployee = async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id);
     if (!employee) {
-      return res.status(404).json({success:false, error: "Employee not found" });
+      return res
+        .status(404)
+        .json({ success: false, error: "Employee not found" });
     }
     res.status(200).json(employee);
   } catch (error) {
-    res.status(500).json({success:false, error: error.message });
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+// Get allemployee by ID
+export const getAllEmployee = async (req, res) => {
+  try {
+    const employee = await Employee.find();
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Employee not found" });
+    }
+    res.status(200).json(employee);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 

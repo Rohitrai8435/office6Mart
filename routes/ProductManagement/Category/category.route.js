@@ -5,12 +5,13 @@ import * as categoryController from "../../../controllers/ProductManagement/Cate
 import { uploadS3 } from "../../../middlewares/multer.js";
 import isStoreAdmin from "../../../middlewares/isstoreAdmin.js";
 import isStore from "../../../middlewares/isStoreOwner.js";
+import isAdmin from "../../../middlewares/isstoreAdmin.js";
 const router = express.Router();
 
 // Create category route
 router.post(
   "/",
-  isStoreAdmin,
+  isStore,
   uploadS3.fields([{ name: "image", maxCount: 1 }]),
   categoryController.createCategory
 );
@@ -18,7 +19,9 @@ router.post(
 // Get category route
 router.get("/:id", categoryController.getCategory);
 
+// Get allcategory route
 router.get("/", categoryController.getAllCategory);
+
 router.get(
   "/ofadmin/:adminId",
   isStore,
@@ -28,13 +31,13 @@ router.get(
 // Update category route
 router.post(
   "/:id",
-  isStoreAdmin,
+  isStore,
   uploadS3.fields([{ name: "image", maxCount: 1 }]),
   categoryController.updateCategory
 );
 
 // Delete category route
-router.delete("/:id", isStoreAdmin, categoryController.deleteCategory);
+router.delete("/:id", isStore, categoryController.deleteCategory);
 
 export default router;
 //asdasdsdad

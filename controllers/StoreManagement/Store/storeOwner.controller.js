@@ -105,6 +105,7 @@ export const updateStore = async (req, res) => {
       password,
     } = data;
 
+    console.log(storeName);
     const store = await Store.findById({
       _id: req.params.id,
     });

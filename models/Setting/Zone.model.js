@@ -2,9 +2,13 @@ import mongoose from "mongoose";
 
 const ZoneSchema = mongoose.Schema(
   {
-    zone: {
+    name: {
       type: String,
       required: true,
+    },
+    admin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "admin",
     },
   },
   { timestamp: true }

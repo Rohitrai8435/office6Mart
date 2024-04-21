@@ -28,7 +28,7 @@ router.get("/", isStore, productController.getAllProduct);
 // Update product route
 router.post(
   "/:id",
-  isStoreAdmin,
+  isStore,
   uploadS3.fields([
     { name: "itemImage", maxCount: 1 },
     { name: "itemThumbnail", maxCount: 1 },
@@ -37,6 +37,6 @@ router.post(
 );
 
 // Delete product route
-router.delete("/:id", isStoreAdmin, productController.deleteProduct);
+router.delete("/:id", isStore, productController.deleteProduct);
 
 export default router;

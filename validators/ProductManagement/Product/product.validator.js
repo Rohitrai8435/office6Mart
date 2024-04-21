@@ -11,8 +11,6 @@ export const productValidationSchema = Joi.object({
   discounttype: Joi.string().required(),
   discounttype: Joi.string().valid("Percent", "Amount").required(),
   discount: Joi.number().required(),
-  stock: Joi.number().required(),
-  sold: Joi.number().required(),
   attribute: Joi.string().required(),
-  tags: Joi.array().required(),
+  tags: Joi.string().required(),
 });

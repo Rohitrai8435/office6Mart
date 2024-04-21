@@ -2,23 +2,24 @@
 
 import express from "express";
 import * as couponController from "../../controllers/PromotionManagement/Coupon.controller.js";
-import isStoreAdmin from "../../middlewares/isstoreAdmin.js";
+import isAdmin from "../../middlewares/isstoreAdmin.js";
+import isStore from "../../middlewares/isStoreOwner.js";
 
 const router = express.Router();
 
 // Create coupon route
-router.post("/", isStoreAdmin, couponController.createCoupon);
+router.post("/", isStore, couponController.createCoupon);
 
 // Get all coupons route
-router.get("/", isStoreAdmin, couponController.getAllCoupons);
+router.get("/", isStore, couponController.getAllCoupons);
 
 // Get coupon by ID route
-router.get("/:id", isStoreAdmin, couponController.getCouponById);
+router.get("/:id", isStore, couponController.getCouponById);
 
 // Update coupon by ID route
-router.post("/:id", isStoreAdmin, couponController.updateCouponById);
+router.post("/:id", isStore, couponController.updateCouponById);
 
 // Delete coupon by ID route
-router.delete("/:id", isStoreAdmin, couponController.deleteCouponById);
+router.delete("/:id", isStore, couponController.deleteCouponById);
 
 export default router;

@@ -10,7 +10,6 @@ const BannerSchema = new Schema({
     type: String,
     required: true,
   },
-
   bannerType: {
     type: String,
     emum: ["Store Wise", "Item Wise", "Default"],
@@ -30,7 +29,6 @@ const BannerSchema = new Schema({
   },
   defaultLink: {
     type: String,
-    
   },
   bannerImage: [],
 });

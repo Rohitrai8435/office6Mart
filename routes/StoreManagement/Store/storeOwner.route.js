@@ -24,7 +24,7 @@ router.get("/:id", isStoreAdmin, storeController.getStore);
 router.get("/", isStoreAdmin, storeController.getAllStore);
 
 // Update store route
-router.put(
+router.post(
   "/:id",
   isStoreAdmin,
   uploadS3.fields([

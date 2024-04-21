@@ -15,7 +15,10 @@ export const createOrder = async (req, res) => {
     }
 
     // Create new order
-    const order = new Order(req.body);
+    const order = new Order({
+      ...req.body,
+      orderId: Math.floor(Math.random() * 1000000 + 1),
+    });
     const savedOrder = await order.save();
     res.status(200).json({ success: true, data: savedOrder }); // Changed response format
   } catch (error) {

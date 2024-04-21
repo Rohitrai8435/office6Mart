@@ -24,6 +24,7 @@ import CouponRoutes from "./routes/PromotionManagement/Coupon.route.js";
 import NotificationRoutes from "./routes/PromotionManagement/Notification.route.js";
 import OrderRoutes from "./routes/OrderManagement/Order.route.js";
 import FlashsaleRoutes from "./routes/OrderManagement/flashsale.route.js";
+import ZoneRoutes from "./routes/Setting/Zone.route.js";
 
 /********************************************/
 const app = express();
@@ -76,8 +77,8 @@ app.use("/api/v1/itemCampaign", ItemCampaignRoutes);
 app.use("/api/v1/coupon", CouponRoutes);
 app.use("/api/v1/notification", NotificationRoutes);
 app.use("/api/v1/order", OrderRoutes);
-
 app.use("/api/v1/flashsale", FlashsaleRoutes);
+app.use("/api/v1/zone", ZoneRoutes);
 
 /***************************************/
 

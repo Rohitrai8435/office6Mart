@@ -4,12 +4,14 @@ import { BaseUser } from "../models/User/BaseUser.js";
 const isAdmin = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
+
     if (!authHeader) {
       return res
         .status(401)
         .json({ success: false, error: "Authorization Required" });
     }
     const token = authHeader.split(" ")[1];
+
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const user = await BaseUser.findOne({
       _id: decode.userId,

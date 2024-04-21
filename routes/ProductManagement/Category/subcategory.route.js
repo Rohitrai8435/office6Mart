@@ -8,7 +8,7 @@ import isStore from "../../../middlewares/isStoreOwner.js";
 const router = express.Router();
 
 // Create category route
-router.post("/", isStoreAdmin, subcategoryController.createCategory);
+router.post("/", isStore, subcategoryController.createCategory);
 
 // Get category route
 router.get("/:id", subcategoryController.getCategory);
@@ -24,9 +24,9 @@ router.get(
 );
 
 // Update category route
-router.put("/:id", isStoreAdmin, subcategoryController.updateCategory);
+router.put("/:id", isStore, subcategoryController.updateCategory);
 
 // Delete category route
-router.delete("/:id", isStoreAdmin, subcategoryController.deleteCategory);
+router.delete("/:id", isStore, subcategoryController.deleteCategory);
 
 export default router;
